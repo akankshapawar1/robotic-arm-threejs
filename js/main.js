@@ -31,7 +31,7 @@ scene.add(light);
 scene.add(light);
 
 //experiment here
-let angles = { a1: 0, a2: 0, a3: 0 };
+let angles = { a1: 0, a2: 0 };
 let manipulator = new ManipulatorTest();
 console.log(manipulator);
 
@@ -42,7 +42,6 @@ let render = function() {
   manipulator.setAngle(angles);
   angles.a1 += 0.05;
   angles.a2 += 0.05;
-  angles.a3 += 0.05;
   renderer.render(scene, camera);
 };
 

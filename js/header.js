@@ -1,7 +1,3 @@
-//
-//
-//    objective: to generate any manipulator from data using json.
-//
 class ManipulatorTest {
   constructor() {
     this.revJoin1 = new RevolutJoint();
@@ -10,7 +6,6 @@ class ManipulatorTest {
 
     this.link1 = new link();
     this.link2 = new link();
-    // this.link3 = new link();
     this.endEf = new EndEffector();
 
     this.revJoin1.rotation.x = -Math.PI / 2;
@@ -24,17 +19,8 @@ class ManipulatorTest {
     this.revJoin3.position.y = 50;
     this.revJoin3.rotation.z = Math.PI / 2;
     this.revJoin3.children[3].rotation.x = Math.PI / 2;
-    // this.link3.position.x = 50;
-    // this.link3.rotation.z = Math.PI / 2;
     this.endEf.position.y = -50;
     this.endEf.rotation.z = -Math.PI / 2;
-    // this.revJoin1.children[3].add(
-    //   this.link1.add(
-    //     this.revJoin2.add(
-    //       this.link2.add(this.revJoin3.add(this.link3.add(this.endEf)))
-    //     )
-    //   )
-    // );
     // Nest the components to form the manipulator
     this.revJoin1.children[3].add(
       this.link1.add(
@@ -47,10 +33,6 @@ class ManipulatorTest {
   }
 
   setAngle(angles) {
-    // const { a1, a2, a3 } = angles;
-    // this.revJoin1.rotation.z = a1;
-    // this.revJoin2.rotation.z = a2;
-    // this.revJoin3.rotation.z = a3;
     const { a1, a2 } = angles;
     this.revJoin1.rotation.z = a1;
     this.revJoin2.rotation.z = a2;
@@ -69,24 +51,6 @@ class EndEffector {
       this.frame = new Frame();
       this.frame.add(this.mesh);
       return this.frame;
-  }
-}
-
-class PrismaticJoint {
-  constructor(
-    geometry = new THREE.BoxGeometry(30, 30, 90, 32),
-    material = new THREE.MeshLambertMaterial({
-      color: 0xffff00
-      // transparent: true,
-      // opacity: 0.2
-    })
-  ) {
-    this.frame = new Frame();
-    this.material = material;
-    this.geometry = geometry;
-    this.frame.add(new THREE.Mesh(this.geometry, this.material));
-    this.frame.children[3].position.set(0, 45, 0);
-    return this.frame;
   }
 }
 
@@ -207,10 +171,10 @@ class Frame {
     axis.z.children[0].position.y = 12.5;
     axis.z.rotation.x = Math.PI / 2;
 
-    // Set visibility of axes to false
-    axis.x.visible = false;
-    axis.y.visible = false;
-    axis.z.visible = false;
+    // // Set visibility of axes to false
+    // axis.x.visible = false;
+    // axis.y.visible = false;
+    // axis.z.visible = false;
 
     this.pivot = new Pivot();
     this.pivot
