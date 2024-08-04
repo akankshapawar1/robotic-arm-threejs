@@ -9,24 +9,28 @@ class ManipulatorTest {
     this.endEf = new EndEffector();
 
     // Set initial positions and rotations
-    this.revJoin1.rotation.x = -Math.PI / 2;
-    this.revJoin1.children[3].rotation.x = Math.PI / 2;
-    this.link1.position.y = 50;
+    this.revJoin1.rotation.x = 0;
+    this.revJoin1.children[3].rotation.z = Math.PI / 2;
+    this.link1.position.x = 50;
     // this.revJoin2.position.y = 50;
     // this.revJoin2.rotation.x = 0;
     // this.revJoin2.children[3].rotation.x = Math.PI / 2;
-    this.endEf.position.x = 50;
+    this.endEf.position.y = -50;
     this.endEf.rotation.z = -Math.PI / 2;
 
     // Nest the components to form the manipulator
-    this.revJoin1.children[3].add(
-      this.link1.add(this.endEf)
-    );
+    // this.revJoin1.children[3].add(
+    //   this.link1.add(this.endEf)
+    // );
+    this.revJoin1.children[3].add(this.link1);
+    this.link1.add(this.endEf);
   }
 
   setAngle(angles) {
     const { a1 } = angles;
-    this.link1.rotation.z = a1; // Only rotate the second joint
+    // this.link1.rotation.z = a1; // Only rotate the second joint
+    const radA1 = a1 * (Math.PI / 180);
+    this.link1.rotation.z = radA1; 
   }
 }
 

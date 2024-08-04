@@ -13,7 +13,7 @@ camera.position.z = 300;
 camera.position.y = 140;
 camera.position.x = 100;
 
-renderer.setClearColor("#252525");
+renderer.setClearColor("#333333");
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 window.addEventListener("resize", () => {
@@ -22,16 +22,11 @@ window.addEventListener("resize", () => {
   camera.updateProjectionMatrix();
 });
 
-// let light = new THREE.PointLight(0xffffff, 1, 500);
-let light = new THREE.AmbientLight(0x404040); // soft white light
-light.position.set(10, 0, 25);
-scene.add(light);
-
-//adding light to the scene
+let light = new THREE.AmbientLight(0xaaaaaa); 
 scene.add(light);
 
 //experiment here
-let angles = { a1: 90 };
+let angles = { a1: 45 };
 let manipulator = new ManipulatorTest();
 console.log(manipulator);
 
