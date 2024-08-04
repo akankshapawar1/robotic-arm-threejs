@@ -25,6 +25,10 @@ window.addEventListener("resize", () => {
 let light = new THREE.AmbientLight(0xaaaaaa); 
 scene.add(light);
 
+// Add GridHelper to the scene
+const gridHelper = new THREE.GridHelper(200, 50);
+scene.add(gridHelper);
+
 //experiment here
 let angles = { a1: 45 };
 let manipulator = new ManipulatorTest();
