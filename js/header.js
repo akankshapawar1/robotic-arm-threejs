@@ -10,7 +10,7 @@ class ManipulatorTest {
 
     this.link1 = new link();
     this.link2 = new link();
-    this.link3 = new link();
+    // this.link3 = new link();
     this.endEf = new EndEffector();
 
     this.revJoin1.rotation.x = -Math.PI / 2;
@@ -24,26 +24,36 @@ class ManipulatorTest {
     this.revJoin3.position.y = 50;
     this.revJoin3.rotation.z = Math.PI / 2;
     this.revJoin3.children[3].rotation.x = Math.PI / 2;
-    this.link3.position.x = 50;
-    this.link3.rotation.z = Math.PI / 2;
+    // this.link3.position.x = 50;
+    // this.link3.rotation.z = Math.PI / 2;
     this.endEf.position.y = -50;
     this.endEf.rotation.z = -Math.PI / 2;
+    // this.revJoin1.children[3].add(
+    //   this.link1.add(
+    //     this.revJoin2.add(
+    //       this.link2.add(this.revJoin3.add(this.link3.add(this.endEf)))
+    //     )
+    //   )
+    // );
+    // Nest the components to form the manipulator
     this.revJoin1.children[3].add(
       this.link1.add(
         this.revJoin2.add(
-          this.link2.add(this.revJoin3.add(this.link3.add(this.endEf)))
+          this.link2.add(this.endEf)
         )
       )
     );
-
     // return this.revJoin1;
   }
 
   setAngle(angles) {
-    const { a1, a2, a3 } = angles;
+    // const { a1, a2, a3 } = angles;
+    // this.revJoin1.rotation.z = a1;
+    // this.revJoin2.rotation.z = a2;
+    // this.revJoin3.rotation.z = a3;
+    const { a1, a2 } = angles;
     this.revJoin1.rotation.z = a1;
     this.revJoin2.rotation.z = a2;
-    this.revJoin3.rotation.z = a3;
   }
 }
 
@@ -51,14 +61,14 @@ class EndEffector {
   constructor(
     scale = 1,
     geometry = new THREE.SphereGeometry(12 * scale, 20, 20),
-    material = new THREE.MeshLambertMaterial({ color: 0xffcc00 })
+    material = new THREE.MeshLambertMaterial({ color: 0xFF00CC })
   ) {
-    this.geometry = geometry;
-    this.material = material;
-    this.mesh = new THREE.Mesh(this.geometry, this.material);
-    this.frame = new Frame();
-    this.frame.add(this.mesh);
-    return this.frame;
+      this.geometry = geometry;
+      this.material = material;
+      this.mesh = new THREE.Mesh(this.geometry, this.material);
+      this.frame = new Frame();
+      this.frame.add(this.mesh);
+      return this.frame;
   }
 }
 
@@ -66,7 +76,7 @@ class PrismaticJoint {
   constructor(
     geometry = new THREE.BoxGeometry(30, 30, 90, 32),
     material = new THREE.MeshLambertMaterial({
-      color: 0x0000ff
+      color: 0xffff00
       // transparent: true,
       // opacity: 0.2
     })
@@ -87,9 +97,9 @@ class link {
   ) {
     (this.geometry = new THREE.CylinderGeometry(10, 10, 100, 32)),
       (this.material = new THREE.MeshLambertMaterial({
-        color: 0x00ff00,
+        color: 0x000000,
         transparent: true,
-        opacity: 0.7
+        opacity: 1
       }));
 
     // this.material.transparent = true;
@@ -107,11 +117,11 @@ class link {
 
 class RevolutJoint {
   constructor(
-    geometry = new THREE.CylinderGeometry(30, 30, 90, 32),
+    geometry = new THREE.CylinderGeometry(15, 15, 15, 32),
     material = new THREE.MeshLambertMaterial({
-      color: 0x0000ff,
-      transparent: true,
-      opacity: 0.2
+      color: 0xdf1111,
+      transparent: false,
+      opacity: 1
     })
   ) {
     this.frame = new Frame();
@@ -196,6 +206,11 @@ class Frame {
     axis.z.position.z = 10;
     axis.z.children[0].position.y = 12.5;
     axis.z.rotation.x = Math.PI / 2;
+
+    // Set visibility of axes to false
+    axis.x.visible = false;
+    axis.y.visible = false;
+    axis.z.visible = false;
 
     this.pivot = new Pivot();
     this.pivot
