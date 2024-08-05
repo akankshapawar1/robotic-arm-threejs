@@ -7,13 +7,13 @@ class ManipulatorTest {
 
     // Set initial positions and rotations
     this.revJoin1.rotation.x = 0;
-    this.revJoin1.children[3].rotation.z = Math.PI / 2;
+    this.revJoin1.children[3].rotation.z = 0; // Ensure this is set to 0 to stand upright
 
     // Position the shoulder and link correctly
-    this.shoulder.position.y = 7.5; // Adjust based on the geometry of the joint and link
+    this.shoulder.position.y = 15; // Adjust based on the geometry of the joint and link
     this.link1.position.y = 50; // Adjust based on the length of the link
     this.endEf.position.y = 100; // Position end effector at the end of the link
-    this.endEf.rotation.z = -Math.PI / 2;
+    this.endEf.rotation.z = 0; // Ensure this is set to 0
 
     // Nest the components to form the manipulator
     this.revJoin1.children[3].add(this.shoulder);
@@ -23,12 +23,11 @@ class ManipulatorTest {
 
   setAngle(angles) {
     const { a1 } = angles;
-    const radA1 = a1 * (Math.PI / 180); // Convert degrees to radians
+    const clampedA1 = Math.max(-90, Math.min(90, a1))
+    const radA1 = clampedA1 * (Math.PI / 180); // Convert degrees to radians
     this.shoulder.rotation.z = radA1; // Rotate shoulder around z-axis
   }
 }
-
-
 
 class EndEffector {
   constructor(

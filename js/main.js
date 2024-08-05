@@ -30,7 +30,7 @@ const gridHelper = new THREE.GridHelper(200, 50);
 scene.add(gridHelper);
 
 //experiment here
-let angles = { a1: 45 };
+let angles = { a1: 180 };
 let manipulator = new ManipulatorTest();
 console.log(manipulator);
 
