@@ -3,7 +3,7 @@ class ManipulatorTest {
     this.revJoin1 = new RevolutJoint(); // Base joint
     this.shoulder = new THREE.Object3D(); // Shoulder to connect the base joint and the link
     this.link1 = new link();
-    this.endEf = new EndEffector();
+    // this.endEf = new EndEffector();
 
     // Set initial positions and rotations
     this.revJoin1.rotation.x = 0;
@@ -12,13 +12,13 @@ class ManipulatorTest {
     // Position the shoulder and link correctly
     this.shoulder.position.y = 15; // Adjust based on the geometry of the joint and link
     this.link1.position.y = 50; // Adjust based on the length of the link
-    this.endEf.position.y = 100; // Position end effector at the end of the link
-    this.endEf.rotation.z = 0; // Ensure this is set to 0
+    // this.endEf.position.y = 100; // Position end effector at the end of the link
+    // this.endEf.rotation.z = 0; // Ensure this is set to 0
 
     // Nest the components to form the manipulator
     this.revJoin1.children[3].add(this.shoulder);
     this.shoulder.add(this.link1);
-    this.link1.add(this.endEf);
+    // this.link1.add(this.endEf);
   }
 
   setAngle(angles) {
