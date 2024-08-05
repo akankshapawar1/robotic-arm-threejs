@@ -1,7 +1,7 @@
 class ManipulatorTest {
   constructor() {
-    this.revJoin1 = new RevolutJoint(); 
-    this.revJoin2 = new RevolutJoint();
+    this.revJoin1 = new RevolutJoint("cylinder"); 
+    this.revJoin2 = new RevolutJoint("smallcircle");
     this.shoulder1 = new THREE.Object3D(); 
     this.link1 = new link();
     this.link2 = new link();
@@ -12,7 +12,7 @@ class ManipulatorTest {
     this.revJoin2.rotation.x = 0;
     this.revJoin2.children[3].rotation.z = 0;
 
-    this.shoulder1.position.y = 15; // Adjust based on the geometry of the joint and link
+    this.shoulder1.position.y = 10; // Adjust based on the geometry of the joint and link
     this.link1.position.y = 50; // Adjust based on the length of the link
     this.revJoin2.position.y = 50;
     this.link2.position.y = 50;
@@ -57,7 +57,7 @@ class link {
   ) {
     this.geometry = new THREE.CylinderGeometry(5, 5, 100, 32);
     this.material = new THREE.MeshLambertMaterial({
-      color: 0x000000,
+      color: 0x9fc5e8,
       transparent: true,
       opacity: 1
     });
@@ -72,19 +72,40 @@ class link {
   }
 }
 
+// class RevolutJoint {
+//   constructor(
+//     geometry = new THREE.CylinderGeometry(15, 15, 20, 30), // Increased height to encapsulate the link
+//     material = new THREE.MeshLambertMaterial({
+//       color: 0xC0C0C0,
+//       transparent: false,
+//       opacity: 1
+//     })
+//   ) {
+//     this.frame = new Frame();
+//     this.material = material;
+//     this.geometry = geometry;
+//     this.frame.add(new THREE.Mesh(this.geometry, this.material));
+//     return this.frame;
+//   }
+// }
 class RevolutJoint {
-  constructor(
-    geometry = new THREE.CylinderGeometry(15, 15, 25, 32), // Increased height to encapsulate the link
-    material = new THREE.MeshLambertMaterial({
-      color: 0xdf1111,
+  constructor(type = "cylinder") {
+    this.frame = new Frame();
+    this.material = new THREE.MeshLambertMaterial({
+      color: 0xC0C0C0, // Silver color
       transparent: false,
       opacity: 1
-    })
-  ) {
-    this.frame = new Frame();
-    this.material = material;
-    this.geometry = geometry;
-    this.frame.add(new THREE.Mesh(this.geometry, this.material));
+    });
+
+    if (type === "smallcircle") {
+      this.geometry = new THREE.SphereGeometry(8, 32, 32); // Small circle geometry
+    } else {
+      this.geometry = new THREE.CylinderGeometry(15, 15, 25, 32);
+    }
+
+    this.mesh = new THREE.Mesh(this.geometry, this.material);
+    this.mesh.position.y = 0; // Adjust position to align properly
+    this.frame.add(this.mesh);
     return this.frame;
   }
 }
@@ -137,13 +158,16 @@ class Frame {
     axis.x.position.x = 10;
     axis.x.children[0].position.y = 12.5;
     axis.x.rotation.z = -Math.PI / 2;
+    axis.x.visible = false; 
 
     axis.y.position.y = 10;
     axis.y.children[0].position.y = 12.5;
+    axis.y.visible = false; 
 
     axis.z.position.z = 10;
     axis.z.children[0].position.y = 12.5;
     axis.z.rotation.x = Math.PI / 2;
+    axis.z.visible = false; 
 
     this.pivot = new Pivot();
     this.pivot
