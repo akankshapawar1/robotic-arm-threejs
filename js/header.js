@@ -1,31 +1,37 @@
 class ManipulatorTest {
   constructor() {
-    this.revJoin1 = new RevolutJoint(); // Base joint
-    this.shoulder = new THREE.Object3D(); // Shoulder to connect the base joint and the link
+    this.revJoin1 = new RevolutJoint(); 
+    this.revJoin2 = new RevolutJoint();
+    this.shoulder1 = new THREE.Object3D(); 
     this.link1 = new link();
-    // this.endEf = new EndEffector();
+    this.link2 = new link();
 
     // Set initial positions and rotations
     this.revJoin1.rotation.x = 0;
     this.revJoin1.children[3].rotation.z = 0; // Ensure this is set to 0 to stand upright
+    this.revJoin2.rotation.x = 0;
+    this.revJoin2.children[3].rotation.z = 0;
 
-    // Position the shoulder and link correctly
-    this.shoulder.position.y = 15; // Adjust based on the geometry of the joint and link
+    this.shoulder1.position.y = 15; // Adjust based on the geometry of the joint and link
     this.link1.position.y = 50; // Adjust based on the length of the link
-    // this.endEf.position.y = 100; // Position end effector at the end of the link
-    // this.endEf.rotation.z = 0; // Ensure this is set to 0
+    this.revJoin2.position.y = 50;
+    this.link2.position.y = 50;
 
     // Nest the components to form the manipulator
-    this.revJoin1.children[3].add(this.shoulder);
-    this.shoulder.add(this.link1);
-    // this.link1.add(this.endEf);
+    this.revJoin1.children[3].add(this.shoulder1);
+    this.shoulder1.add(this.link1);
+    this.link1.add(this.revJoin2);
+    this.revJoin2.add(this.link2); // Attach link2 directly to revJoin2
   }
 
   setAngle(angles) {
-    const { a1 } = angles;
-    const clampedA1 = Math.max(-90, Math.min(90, a1))
-    const radA1 = clampedA1 * (Math.PI / 180); // Convert degrees to radians
-    this.shoulder.rotation.z = radA1; // Rotate shoulder around z-axis
+    const { a1, a2 } = angles;
+    const clampedA1 = Math.max(-90, Math.min(90, a1));
+    const clampedA2 = Math.max(-90, Math.min(90, a2));
+    const radA1 = clampedA1 * (Math.PI / 180);  
+    const radA2 = clampedA2 * (Math.PI / 180); 
+    this.shoulder1.rotation.z = radA1; // Rotate shoulder around z-axis
+    this.revJoin2.rotation.z = radA2; // Rotate second joint around z-axis
   }
 }
 
@@ -49,7 +55,7 @@ class link {
     position = { x: 0, y: 0, z: 0 },
     rotation = { x: 0, y: 0, z: 0 }
   ) {
-    this.geometry = new THREE.CylinderGeometry(10, 10, 100, 32);
+    this.geometry = new THREE.CylinderGeometry(5, 5, 100, 32);
     this.material = new THREE.MeshLambertMaterial({
       color: 0x000000,
       transparent: true,
@@ -68,7 +74,7 @@ class link {
 
 class RevolutJoint {
   constructor(
-    geometry = new THREE.CylinderGeometry(15, 15, 30, 32), // Increased height to encapsulate the link
+    geometry = new THREE.CylinderGeometry(15, 15, 25, 32), // Increased height to encapsulate the link
     material = new THREE.MeshLambertMaterial({
       color: 0xdf1111,
       transparent: false,
